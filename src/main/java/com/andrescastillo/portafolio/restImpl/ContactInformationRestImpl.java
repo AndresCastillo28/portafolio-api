@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -22,6 +24,17 @@ public class ContactInformationRestImpl implements ContactInformationRest {
             return ResponseEntity.ok(ApiResponse.success(201, contactInformationService.save(contactInformation)));
         } catch (Exception e) {
             log.error("Error saving contact information", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal server error: " + e.getMessage()));
+        }
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse<List<ContactInformation>>> findAll() {
+        try {
+            return ResponseEntity.ok(ApiResponse.success(200, contactInformationService.findAll()));
+        } catch (Exception e) {
+            log.error("Error get contact information", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal server error: " + e.getMessage()));
         }
