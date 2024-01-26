@@ -4,6 +4,7 @@ import com.andrescastillo.portafolio.entity.ContactInformation;
 import com.andrescastillo.portafolio.utils.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,5 +19,6 @@ public interface ContactInformationRest {
     ResponseEntity<ApiResponse<ContactInformation>> save(@Valid @RequestBody ContactInformation contactInformation);
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<ApiResponse<List<ContactInformation>>> findAll();
 }
