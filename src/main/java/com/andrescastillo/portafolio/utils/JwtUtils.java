@@ -45,9 +45,9 @@ public class JwtUtils {
         return extractExpiration(token).before(new Date());
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token, String user) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(user) && !isTokenExpired(token));
     }
 
 
@@ -63,7 +63,7 @@ public class JwtUtils {
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 1))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hour
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 
