@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "contact_information")
@@ -34,5 +35,9 @@ public class ContactInformation implements Serializable {
     @Size(min = 10, max = 500, message = "The message must be between 10 and 500 characters")
     @Column(name = "message")
     private String message;
+
+    @Column(name = "created_date", updatable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private LocalDateTime createdDate = LocalDateTime.now();
 
 }
